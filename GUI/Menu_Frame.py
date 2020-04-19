@@ -1,5 +1,5 @@
 
-from Tkinter import *
+from tkinter import *
 from Total_Frame import DisplayItems
 
 class MenuSection(object):

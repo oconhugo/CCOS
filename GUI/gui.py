@@ -1,4 +1,4 @@
-from Tkinter import *
+from tkinter import *
 from Menu_Frame import MenuSection
 from Total_Frame import TotalSection
 

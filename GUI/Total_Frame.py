@@ -1,5 +1,5 @@
 
-from Tkinter import *
+from tkinter import *
 import Menu_Frame
 
 class TotalSection(object):

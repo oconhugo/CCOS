@@ -2,6 +2,7 @@
 from tkinter import *
 import Menu_Frame
 
+#Display the total and buttons
 class TotalSection(object):
     def __init__(self, right):
         label4 = Label(right, text="Articulos Seleccionados", width=30, height=2, font=("courier", 17, "bold"))
@@ -17,6 +18,7 @@ class TotalSection(object):
         continuar.pack(side = "left")
         cancelar.pack( side = "left")
 
+    #Regresa la noata para el taquero
     def newNota(self, box):
         F = Frame(box)
         F.pack()
@@ -26,12 +28,14 @@ class TotalSection(object):
         E1.pack(side=RIGHT)
         return E1
 
+    #Manda el JSON hacia la otra interfase
     def continuar(self, nota):
         global ORDER
         d = {"Nota": nota.get("1.0", 'end-1c')}
         ORDER.append(d)
         print(ORDER)
 
+    #Reset the values of the JSON
     def delete(self):
         global ORDER
         global GLOBAL_TOTAL
@@ -44,6 +48,7 @@ class TotalSection(object):
         for i in range(len(ITEM_VAL)):
             ITEM_VAL.pop()
 
+#Display the selected items
 class DisplayItems():
     def printItem(self, x, val, right):
         num = str(val)
@@ -61,7 +66,7 @@ class DisplayItems():
         if x != "Dulces" and x!= "Varios" and x!= "Barbacoa":
             self.calculate()
 
-
+    #calculate the sum of the items
     def calculate(self):
         global ORDER
         total = 0
@@ -70,6 +75,7 @@ class DisplayItems():
         global GLOBAL_TOTAL
         GLOBAL_TOTAL = total
 
+    #Check if it is a number. Then convert it
     def convertStr(self, d):
         if len(d)>0:
             dd= int(d)
@@ -77,6 +83,7 @@ class DisplayItems():
             dd= 0
         return dd
 
+    #store the extras and checkbox in the same JSON as the items
     def showTotal(self, right, checkbox, entrys):
         global ORDER
         global GLOBAL_TOTAL
@@ -94,6 +101,7 @@ class DisplayItems():
         label = Label(right, text="Total= $"+str(GLOBAL_TOTAL), font=("arial", 15, "bold"), height = 4)
         label.pack()
 
+    #Check for the values of the Extras
     def fillEntrys(self, d, v, b, right):
         if d!=0:
             self.printItem("Dulces", d, right)
@@ -102,7 +110,7 @@ class DisplayItems():
         if b != 0:
             self.printItem("Barbacoa", b, right)
 
-
+#global variables
 GLOBAL_TOTAL=0
 ITEM_VAL = []
 ORDER = []

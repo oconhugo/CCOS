@@ -2,6 +2,7 @@
 from tkinter import *
 from Total_Frame import DisplayItems
 
+#class responsible to contain the functionality and gui of the menu
 class MenuSection(object):
     def __init__(self, left, right):
         container = Frame(left, borderwidth=2, relief="solid")
@@ -10,6 +11,7 @@ class MenuSection(object):
         container.pack(expand=True, fill="both", padx=10, pady=10)
         Menu(container, right, checkbox)
 
+#class in charge of create checkbox llevar
     def Checkboxes(self, left):
         global LLEVAR
         LLEVAR = IntVar()
@@ -23,6 +25,7 @@ class MenuSection(object):
         #checkboxAqui.pack(fill="both", padx=10, pady=10)
         return LLEVAR
 
+#Create the menu section
 class Menu(object):
     def __init__(self, container, right, checkbox):
         container_left = Frame(container, borderwidth=2)
@@ -40,9 +43,12 @@ class Menu(object):
         self.fillMenu(beverage, container_middle, right)
         self.fillMenu(extras, container_right, right)
         entrys = self.setEntry(container_middle, text)
+
+        #when click the "ver total" it will display the total at the Total_frame
         done_button = Button(container_right, text="ver total", command= lambda: self.disableButton(right, checkbox, entrys), height= 4, width= 30, font=("arial", 10, "bold"), bg="orange")
         done_button.pack(side=BOTTOM)
 
+#After the ver total has been clicked, it will disable Menu and total
     def disableButton(self, right, checkbox, entrys):
         global DISB
         global DISM
@@ -66,6 +72,7 @@ class Menu(object):
             button = Button(container, text=i, command= lambda key=i, val=item[i]: self.disableMenu(key, val, right), height= 4, width= 30)
             button.pack(fill = BOTH)
 
+#disable the menu
     def disableMenu(self, key, val, right):
         global DISM
         if DISM == 0:

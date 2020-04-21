@@ -37,23 +37,23 @@ class TotalSection(object):
 
     #Reset the values of the JSON
     def delete(self):
-        global ORDER
-        global GLOBAL_TOTAL
-        global ITEM_VAL
+        global ORDER, GLOBAL_TOTAL, ITEM_VAL, GLOBAL_LABELS, GLOBAL_TOTAL_LABEL
+        Menu_Frame.DISB, Menu_Frame.DISM, GLOBAL_TOTAL = 0, 0, 0
+        for i in range(len(GLOBAL_TOTAL_LABEL)):
+            GLOBAL_TOTAL_LABEL[i].destroy()
         for i in range(len(ORDER)):
             ORDER.pop()
-        Menu_Frame.DISB = 0
-        Menu_Frame.DISM = 0
-        GLOBAL_TOTAL = 0
         for i in range(len(ITEM_VAL)):
             ITEM_VAL.pop()
+        for i in range(len(GLOBAL_ITEM_LABELS)):
+            GLOBAL_ITEM_LABELS[i].destroy()
 
 #Display the selected items
 class DisplayItems():
     def printItem(self, x, val, right):
+        global GLOBAL_ITEM_LABELS, GLOBAL
         num = str(val)
         item = {x: val}
-        global ORDER
         ORDER.append(item)
         ITEM_VAL.append(val)
         if len(x) < 4:
@@ -62,17 +62,18 @@ class DisplayItems():
             label = Label(right, text=x + "                 $" + num, width=40, height=1, font=("courier", 10, "bold"), anchor=W)
         else:
             label = Label(right, text=x + "         $" + num, width=40, height=1, font=("courier", 10, "bold"), anchor=W)
+
+        GLOBAL_ITEM_LABELS.append(label)
         label.pack()
         if x != "Dulces" and x!= "Varios" and x!= "Barbacoa":
             self.calculate()
 
     #calculate the sum of the items
     def calculate(self):
-        global ORDER
+        global ORDER, GLOBAL_TOTAL
         total = 0
         for i in ITEM_VAL:
             total = total + i
-        global GLOBAL_TOTAL
         GLOBAL_TOTAL = total
 
     #Check if it is a number. Then convert it
@@ -85,20 +86,18 @@ class DisplayItems():
 
     #store the extras and checkbox in the same JSON as the items
     def showTotal(self, right, checkbox, entrys):
-        global ORDER
-        global GLOBAL_TOTAL
+        global ORDER, GLOBAL_TOTAL, GLOBAL_TOTAL_LABEL
         d = entrys[0].get()
         v = entrys[1].get()
         b = entrys[2].get()
-        intd = self.convertStr(d)
-        intv = self.convertStr(v)
-        intb = self.convertStr(b)
+        intd, intv, intb = self.convertStr(d), self.convertStr(v), self.convertStr(b)
         self.fillEntrys(intd, intv, intb, right)
         dicC = {"Llevar":checkbox.get()}
         ORDER.append(dicC)
         GLOBAL_TOTAL = GLOBAL_TOTAL+intd+intv+intb
         print(ORDER)
         label = Label(right, text="Total= $"+str(GLOBAL_TOTAL), font=("arial", 15, "bold"), height = 4)
+        GLOBAL_TOTAL_LABEL.append(label)
         label.pack()
 
     #Check for the values of the Extras
@@ -114,3 +113,5 @@ class DisplayItems():
 GLOBAL_TOTAL=0
 ITEM_VAL = []
 ORDER = []
+GLOBAL_ITEM_LABELS = []
+GLOBAL_TOTAL_LABEL = []

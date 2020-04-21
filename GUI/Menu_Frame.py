@@ -50,8 +50,7 @@ class Menu(object):
 
 #After the ver total has been clicked, it will disable Menu and total
     def disableButton(self, right, checkbox, entrys):
-        global DISB
-        global DISM
+        global DISB, DISM
         if DISB ==0:
             DisplayItems().showTotal(right, checkbox, entrys)
         DISB = 1

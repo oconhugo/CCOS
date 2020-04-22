@@ -1,6 +1,6 @@
 from tkinter import *
-from Menu_Frame import MenuSection
-from Total_Frame import TotalSection
+from GUI.Menu_Frame import MenuSection
+from GUI.Total_Frame import TotalSection
 
 class FullScreenApp(object):
     def __init__(self, master, **kwargs):

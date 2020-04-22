@@ -1,8 +1,8 @@
 
 from tkinter import *
-from Total_Frame import DisplayItems
+from GUI.Total_Frame import DisplayItems
 
-#class responsible to contain the functionality and gui of the menu
+
 class MenuSection(object):
     def __init__(self, left, right):
         container = Frame(left, borderwidth=2, relief="solid")

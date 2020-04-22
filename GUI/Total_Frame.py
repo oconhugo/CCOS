@@ -1,6 +1,6 @@
 
 from tkinter import *
-import Menu_Frame
+from GUI import Menu_Frame
 
 #Display the total and buttons
 class TotalSection(object):

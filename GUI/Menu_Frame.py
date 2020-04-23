@@ -1,6 +1,6 @@
 
 from tkinter import *
-from GUI.Total_Frame import DisplayItems
+import Total_Frame
 
 
 class MenuSection(object):
@@ -52,7 +52,7 @@ class Menu(object):
     def disableButton(self, right, checkbox, entrys):
         global DISB, DISM
         if DISB ==0:
-            DisplayItems().showTotal(right, checkbox, entrys)
+            Total_Frame.DisplayItems().showTotal(right, checkbox, entrys)
         DISB = 1
         DISM = 1
 
@@ -75,7 +75,7 @@ class Menu(object):
     def disableMenu(self, key, val, right):
         global DISM
         if DISM == 0:
-            DisplayItems().printItem(key, val, right)
+            Total_Frame.DisplayItems().printItem(key, val, right)
 
 DISB= 0
 DISM = 0

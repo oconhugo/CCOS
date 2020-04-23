@@ -1,6 +1,7 @@
 
 from tkinter import *
-from GUI import Menu_Frame
+import Menu_Frame
+from client import client
 
 #Display the total and buttons
 class TotalSection(object):
@@ -31,9 +32,8 @@ class TotalSection(object):
     #Manda el JSON hacia la otra interfase
     def continuar(self, nota):
         global ORDER
-        d = {"Nota": nota.get("1.0", 'end-1c')}
-        ORDER.append(d)
         print(ORDER)
+        client.client_socket(self, ORDER)
 
     #Reset the values of the JSON
     def delete(self):
@@ -95,7 +95,6 @@ class DisplayItems():
         dicC = {"Llevar":checkbox.get()}
         ORDER.append(dicC)
         GLOBAL_TOTAL = GLOBAL_TOTAL+intd+intv+intb
-        print(ORDER)
         label = Label(right, text="Total= $"+str(GLOBAL_TOTAL), font=("arial", 15, "bold"), height = 4)
         GLOBAL_TOTAL_LABEL.append(label)
         label.pack()

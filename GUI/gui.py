@@ -1,6 +1,6 @@
 from tkinter import *
-from GUI.Menu_Frame import MenuSection
-from GUI.Total_Frame import TotalSection
+import Menu_Frame
+from Total_Frame import TotalSection
 
 class FullScreenApp(object):
     def __init__(self, master, **kwargs):
@@ -16,7 +16,7 @@ class FullScreenApp(object):
             master.winfo_screenwidth() - pad, master.winfo_screenheight() - pad))
         master.bind('<Escape>', self.toggle_geom)
 
-        MenuSection(self.left, self.right)
+        Menu_Frame.MenuSection(self.left, self.right)
         TotalSection(self.right)
 
     def toggle_geom(self, event):

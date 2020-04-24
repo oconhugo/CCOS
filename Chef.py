@@ -62,7 +62,19 @@ class FullScreenApp(object):
 
     def show_order(self, input):
         while not input.empty():
-            FullScreenApp.display.config(text=str(input.get()))
+            temp_obj = input.get()
+            FullScreenApp.disp_obj(self,temp_obj)
+
+    def disp_obj(self,inp_obj):
+        order_str= "";
+        while len(inp_obj)>0:
+            temp_object = inp_obj.pop()
+            print(str(temp_object))
+            for i in temp_object:
+                order_str = order_str + "\n" + i
+            FullScreenApp.display.config(text=str(order_str))
+
+
 
     def set_queue(self, rx):
         global ORDER_QUEUE

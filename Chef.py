@@ -6,6 +6,7 @@ from queue import Queue
 
 ORDER_QUEUE = Queue()
 ORDER_NUM = 0
+BUTTON_NUM=1
 class myThread (threading.Thread):
     def __init__(self, threadID, name, counter):
         threading.Thread.__init__(self)
@@ -39,10 +40,10 @@ class server(object):
 class FullScreenApp(object):
     def __init__(self, master, **kwargs):
         FullScreenApp.master = master
-        FullScreenApp.left = Frame(self.master, borderwidth=2, relief="solid")
+        FullScreenApp.left = Frame(self.master,width=((FullScreenApp.master.winfo_screenwidth())/3), borderwidth=2, relief="solid")
         FullScreenApp.right = Frame(self.master, borderwidth=2, relief="solid")
-        FullScreenApp.right.pack(side="right", expand=True, fill="both")
-        FullScreenApp.left.pack(side="left", expand=True, fill="both")
+        FullScreenApp.right.pack(side="right", fill="both",expand=TRUE)
+        FullScreenApp.left.pack(side="left", fill="both")
 
         FullScreenApp.display = Label(self.right, text="k")
         FullScreenApp.display.pack()
@@ -61,12 +62,22 @@ class FullScreenApp(object):
         self._geom = geom
 
     def show_order(self, input):
+        children_num=0;
         while not input.empty():
             temp_obj = input.get()
+            button_order = Button(FullScreenApp.left, text="Order #" + str(ORDER_NUM), height=1, width=60, bg="blue")
+            button_order.pack(side="top")
             FullScreenApp.disp_obj(self,temp_obj)
+        for component in FullScreenApp.left.winfo_children():
+            children_num=children_num+1
+        for component_1 in FullScreenApp.left.winfo_children():
+            print(children_num)
+            print(FullScreenApp.master.winfo_screenheight())
+            print(FullScreenApp.left.winfo_screenheight())
+            component_1.config(height=int(27/children_num))
 
     def disp_obj(self,inp_obj):
-        order_str= "";
+        order_str= ""
         while len(inp_obj)>0:
             temp_object = inp_obj.pop()
             print(str(temp_object))
@@ -78,6 +89,8 @@ class FullScreenApp(object):
 
     def set_queue(self, rx):
         global ORDER_QUEUE
+        global ORDER_NUM
+        ORDER_NUM = ORDER_NUM+1
         ORDER_QUEUE.put(rx)
         FullScreenApp.show_order(self,ORDER_QUEUE)
         print('queue size' + str(ORDER_QUEUE.qsize()))

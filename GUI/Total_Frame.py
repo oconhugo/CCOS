@@ -1,5 +1,7 @@
 
 from tkinter import *
+from tkinter import messagebox
+
 import Menu_Frame
 from client import client
 
@@ -32,8 +34,9 @@ class TotalSection(object):
     #Manda el JSON hacia la otra interfase
     def continuar(self, nota):
         global ORDER
-        print(ORDER)
         client.client_socket(self, ORDER)
+        self.delete()
+        messagebox.showinfo("Order", "Order sended successfully")
 
     #Reset the values of the JSON
     def delete(self):

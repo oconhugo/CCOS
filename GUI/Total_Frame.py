@@ -40,8 +40,9 @@ class TotalSection(object):
 
     #Reset the values of the JSON
     def delete(self):
-        global ORDER, GLOBAL_TOTAL, ITEM_VAL, GLOBAL_LABELS, GLOBAL_TOTAL_LABEL
+        global ORDER, GLOBAL_TOTAL, ITEM_VAL, GLOBAL_LABELS, GLOBAL_TOTAL_LABEL, E
         Menu_Frame.DISB, Menu_Frame.DISM, GLOBAL_TOTAL = 0, 0, 0
+        E[0].delete(0,"end"), E[1].delete(0,"end"), E[2].delete(0,"end")
         for i in range(len(GLOBAL_TOTAL_LABEL)):
             GLOBAL_TOTAL_LABEL[i].destroy()
         for i in range(len(ORDER)):
@@ -50,6 +51,7 @@ class TotalSection(object):
             ITEM_VAL.pop()
         for i in range(len(GLOBAL_ITEM_LABELS)):
             GLOBAL_ITEM_LABELS[i].destroy()
+
 
 #Display the selected items
 class DisplayItems():
@@ -90,6 +92,8 @@ class DisplayItems():
     #store the extras and checkbox in the same JSON as the items
     def showTotal(self, right, checkbox, entrys):
         global ORDER, GLOBAL_TOTAL, GLOBAL_TOTAL_LABEL
+        global E
+        E = entrys
         d = entrys[0].get()
         v = entrys[1].get()
         b = entrys[2].get()
@@ -117,3 +121,4 @@ ITEM_VAL = []
 ORDER = []
 GLOBAL_ITEM_LABELS = []
 GLOBAL_TOTAL_LABEL = []
+E = None

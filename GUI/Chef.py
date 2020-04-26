@@ -6,6 +6,8 @@ import pickle
 ORDER_DIC = {}
 ORDER_NUM = 0
 BUTTON_NUM=1
+CURRENT_NUM = 0
+BUTTONS =[]
 class myThread (threading.Thread):
     def __init__(self, threadID, name, counter):
         threading.Thread.__init__(self)
@@ -32,7 +34,7 @@ class server(object):
         while True:
             c, addr = s.accept()
             message = pickle.loads(c.recv(1024))
-            FullScreenApp.set_queue(self, message)
+            FullScreenApp.set_dic(self, message)
 
 
 
@@ -43,6 +45,10 @@ class FullScreenApp(object):
         FullScreenApp.right = Frame(self.master, borderwidth=2, relief="solid")
         FullScreenApp.right.pack(side="right", fill="both",expand=TRUE)
         FullScreenApp.left.pack(side="left", fill="both")
+        button_complete = Button(FullScreenApp.right, text="Completa",
+                                 command=lambda: FullScreenApp.clearOrder(self),
+                                 height= 4, width= 30, font=("arial", 10, "bold"), bg="green")
+        button_complete.place(rely=1.0, relx=1.0, x=-25, y=-50, anchor=SE)
 
         FullScreenApp.display = Label(self.right, text="")
         FullScreenApp.display.pack()
@@ -61,31 +67,29 @@ class FullScreenApp(object):
         self._geom = geom
 
     def createButtons(self):
-        global ORDER_NUM
+        global ORDER_NUM, BUTTONS
         temp = ORDER_NUM
         children_num=0
         button_order = Button(FullScreenApp.left, text="Order #" + str(temp),
                           height=1, width=60, bg="blue")
+        BUTTONS.append(button_order)
         button_order.pack(side="top")
         button_order.config(command=lambda: FullScreenApp.disp_obj(self, button_order['text']))
         for component in FullScreenApp.left.winfo_children():
             children_num=children_num+1
         for component_1 in FullScreenApp.left.winfo_children():
-            print(children_num)
-            print(FullScreenApp.master.winfo_screenheight())
-            print(FullScreenApp.left.winfo_screenheight())
             component_1.config(height=int(27/children_num))
 
     def disp_obj(self,num):
-        global ORDER_DIC
+        global ORDER_DIC, CURRENT_NUM
         n = int(num[-1])
+        CURRENT_NUM = n
         count = len(ORDER_DIC)
         if count>0:
             FullScreenApp.display.config(text=ORDER_DIC[n], width=30, height=10, font=("courier", 17, "bold"))
 
-    def set_queue(self, rx):
-        global ORDER_NUM
-        global ORDER_DIC
+    def set_dic(self, rx):
+        global ORDER_NUM, ORDER_DIC
         ORDER_NUM = ORDER_NUM+1
         order_str = ""
         for i in rx:
@@ -93,6 +97,18 @@ class FullScreenApp(object):
                 order_str = order_str + "\n" + y
         ORDER_DIC[ORDER_NUM] = order_str
         FullScreenApp.createButtons(self)
+
+    def clearOrder(self):
+        global BUTTONS, CURRENT_NUM
+        FullScreenApp.display.config(text="")
+        for i in BUTTONS:
+            x = i['text']
+            n = int(x[-1])
+            if (n == CURRENT_NUM):
+                i.destroy()
+
+
+
 
 thread_server = myThread(1, "Thread-1", 1)
 thread_server.start()

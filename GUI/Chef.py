@@ -2,9 +2,8 @@ from tkinter import *
 import threading
 import socket
 import pickle
-from queue import Queue
 
-ORDER_QUEUE = Queue()
+ORDER_DIC = {}
 ORDER_NUM = 0
 BUTTON_NUM=1
 class myThread (threading.Thread):
@@ -61,15 +60,14 @@ class FullScreenApp(object):
         self.master.geometry(self._geom)
         self._geom = geom
 
-    def show_order(self, input):
+    def createButtons(self):
+        global ORDER_NUM
+        temp = ORDER_NUM
         children_num=0
-        global ORDER_QUEUE
-        while not input.empty():
-            temp_obj = input.get()
-            button_order = Button(FullScreenApp.left, text="Order #" + str(ORDER_NUM),
-                                  command=lambda: FullScreenApp.disp_obj(self, temp_obj),
-                                  height=1, width=60, bg="blue")
-            button_order.pack(side="top")
+        button_order = Button(FullScreenApp.left, text="Order #" + str(temp),
+                          height=1, width=60, bg="blue")
+        button_order.pack(side="top")
+        button_order.config(command=lambda: FullScreenApp.disp_obj(self, button_order['text']))
         for component in FullScreenApp.left.winfo_children():
             children_num=children_num+1
         for component_1 in FullScreenApp.left.winfo_children():
@@ -78,22 +76,23 @@ class FullScreenApp(object):
             print(FullScreenApp.left.winfo_screenheight())
             component_1.config(height=int(27/children_num))
 
-    def disp_obj(self,inp_obj):
-        order_str= ""
-        while len(inp_obj)>0:
-            temp_object = inp_obj.pop()
-            print(str(temp_object))
-            for i in temp_object:
-                order_str = order_str + "\n" + i
-            FullScreenApp.display.config(text=str(order_str))
+    def disp_obj(self,num):
+        global ORDER_DIC
+        n = int(num[-1])
+        count = len(ORDER_DIC)
+        if count>0:
+            FullScreenApp.display.config(text=ORDER_DIC[n], width=30, height=10, font=("courier", 17, "bold"))
 
     def set_queue(self, rx):
-        global ORDER_QUEUE
         global ORDER_NUM
+        global ORDER_DIC
         ORDER_NUM = ORDER_NUM+1
-        ORDER_QUEUE.put(rx)
-        FullScreenApp.show_order(self,ORDER_QUEUE)
-        print('queue size' + str(ORDER_QUEUE.qsize()))
+        order_str = ""
+        for i in rx:
+            for y in i:
+                order_str = order_str + "\n" + y
+        ORDER_DIC[ORDER_NUM] = order_str
+        FullScreenApp.createButtons(self)
 
 thread_server = myThread(1, "Thread-1", 1)
 thread_server.start()

@@ -71,14 +71,14 @@ class FullScreenApp(object):
         temp = ORDER_NUM
         children_num=0
         button_order = Button(FullScreenApp.left, text="Order #" + str(temp),
-                          height=1, width=60, bg="blue")
+                          height=1, width=60, bg="blue", fg="white")
         BUTTONS.append(button_order)
         button_order.pack(side="top")
         button_order.config(command=lambda: FullScreenApp.disp_obj(self, button_order['text']))
         for component in FullScreenApp.left.winfo_children():
             children_num=children_num+1
         for component_1 in FullScreenApp.left.winfo_children():
-            component_1.config(height=int(27/children_num))
+            component_1.config(height=5)
 
     def disp_obj(self,num):
         global ORDER_DIC, CURRENT_NUM
@@ -105,7 +105,9 @@ class FullScreenApp(object):
             x = i['text']
             n = int(x[-1])
             if (n == CURRENT_NUM):
-                i.destroy()
+                d = BUTTONS.pop(n-1)
+                d.destroy()
+        print(len(BUTTONS))
 
 
 

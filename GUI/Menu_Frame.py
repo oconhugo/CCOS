@@ -15,14 +15,11 @@ class MenuSection(object):
     def Checkboxes(self, left):
         global LLEVAR
         LLEVAR = IntVar()
-        #aqui = IntVar()
         checkboxContainer = Frame(left)
         checkboxContainer.pack()
 
         checkboxLlevar = Checkbutton(checkboxContainer, text="Llevar", variable=LLEVAR)
-        #checkboxAqui = Checkbutton(checkboxContainer, text="Aqui", variable=aqui)
         checkboxLlevar.pack(side=LEFT, fill="both", padx=10, pady=10)
-        #checkboxAqui.pack(fill="both", padx=10, pady=10)
         return LLEVAR
 
 #Create the menu section

@@ -1,4 +1,3 @@
-
 from tkinter import *
 from tkinter import messagebox
 
@@ -34,9 +33,10 @@ class TotalSection(object):
     #Manda el JSON hacia la otra interfase
     def continuar(self, nota):
         global ORDER
-        client.client_socket(self, ORDER)
-        self.delete()
-        messagebox.showinfo("Order", "Order sended successfully")
+        if len(ORDER)>0:
+            client.client_socket(self, ORDER)
+            self.delete()
+            messagebox.showinfo("Order", "Order sended successfully")
 
     #Reset the values of the JSON
     def delete(self):
@@ -93,7 +93,9 @@ class DisplayItems():
     def showTotal(self, right, checkbox, entrys):
         global ORDER, GLOBAL_TOTAL, GLOBAL_TOTAL_LABEL
         global E
+        print("show total " + str(E))
         E = entrys
+        print("show total " + str(E))
         d = entrys[0].get()
         v = entrys[1].get()
         b = entrys[2].get()

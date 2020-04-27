@@ -6,8 +6,8 @@ import pickle
 ORDER_DIC = {}
 ORDER_NUM = 0
 BUTTON_NUM=1
-CURRENT_NUM = 0
-BUTTONS =[]
+
+
 class myThread (threading.Thread):
     def __init__(self, threadID, name, counter):
         threading.Thread.__init__(self)
@@ -45,10 +45,6 @@ class FullScreenApp(object):
         FullScreenApp.right = Frame(self.master, borderwidth=2, relief="solid")
         FullScreenApp.right.pack(side="right", fill="both",expand=TRUE)
         FullScreenApp.left.pack(side="left", fill="both")
-        button_complete = Button(FullScreenApp.right, text="Completa",
-                                 command=lambda: FullScreenApp.clearOrder(self),
-                                 height= 4, width= 30, font=("arial", 10, "bold"), bg="green")
-        button_complete.place(rely=1.0, relx=1.0, x=-25, y=-50, anchor=SE)
 
         FullScreenApp.display = Label(self.right, text="")
         FullScreenApp.display.pack()
@@ -71,8 +67,12 @@ class FullScreenApp(object):
         temp = ORDER_NUM
         children_num=0
         button_order = Button(FullScreenApp.left, text="Order #" + str(temp),
+<<<<<<< Updated upstream
                           height=1, width=60, bg="blue", fg="white")
         BUTTONS.append(button_order)
+=======
+                          height=1, width=60, bg="blue", fg='white')
+>>>>>>> Stashed changes
         button_order.pack(side="top")
         button_order.config(command=lambda: FullScreenApp.disp_obj(self, button_order['text']))
         for component in FullScreenApp.left.winfo_children():
@@ -81,12 +81,24 @@ class FullScreenApp(object):
             component_1.config(height=5)
 
     def disp_obj(self,num):
-        global ORDER_DIC, CURRENT_NUM
-        n = int(num[-1])
-        CURRENT_NUM = n
+        global ORDER_DIC
+        FullScreenApp.clean_right_frame(self)
+        str_ord = num.split("#")
+        n = int(str_ord[1])
         count = len(ORDER_DIC)
         if count>0:
             FullScreenApp.display.config(text=ORDER_DIC[n], width=30, height=10, font=("courier", 17, "bold"))
+        button_complete = Button(FullScreenApp.right, text="Completa",
+                                 command=lambda: FullScreenApp.clearOrder(self, n),
+                                 height=4, width=30, font=("arial", 10, "bold"), bg="green")
+        button_complete.place(rely=1.0, relx=1.0, x=-25, y=-50, anchor=SE)
+
+    def clean_right_frame(self):
+        print("Widget before " + str(FullScreenApp.right.winfo_children()))
+        for widget in FullScreenApp.right.winfo_children():
+            if widget['text'] == "Completa":
+                widget.destroy()
+        print("widget after " + str(FullScreenApp.right.winfo_children()))
 
     def set_dic(self, rx):
         global ORDER_NUM, ORDER_DIC
@@ -98,9 +110,10 @@ class FullScreenApp(object):
         ORDER_DIC[ORDER_NUM] = order_str
         FullScreenApp.createButtons(self)
 
-    def clearOrder(self):
-        global BUTTONS, CURRENT_NUM
+    def clearOrder(self,button_n):
+        global ORDER_DIC
         FullScreenApp.display.config(text="")
+<<<<<<< Updated upstream
         for i in BUTTONS:
             x = i['text']
             n = int(x[-1])
@@ -108,6 +121,15 @@ class FullScreenApp(object):
                 d = BUTTONS.pop(n-1)
                 d.destroy()
         print(len(BUTTONS))
+=======
+        print("Before: " + str(ORDER_DIC))
+        if ORDER_DIC:
+            del ORDER_DIC[button_n]
+        print("After: " + str(ORDER_DIC))
+        for widget in FullScreenApp.left.winfo_children():
+            if widget['text'] == "Order #" + str(button_n):
+                widget.destroy()
+>>>>>>> Stashed changes
 
 
 

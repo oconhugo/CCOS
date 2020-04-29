@@ -67,18 +67,13 @@ class FullScreenApp(object):
         temp = ORDER_NUM
         children_num=0
         button_order = Button(FullScreenApp.left, text="Order #" + str(temp),
-<<<<<<< Updated upstream
-                          height=1, width=60, bg="blue", fg="white")
-        BUTTONS.append(button_order)
-=======
                           height=1, width=60, bg="blue", fg='white')
->>>>>>> Stashed changes
         button_order.pack(side="top")
         button_order.config(command=lambda: FullScreenApp.disp_obj(self, button_order['text']))
         for component in FullScreenApp.left.winfo_children():
             children_num=children_num+1
         for component_1 in FullScreenApp.left.winfo_children():
-            component_1.config(height=5)
+            component_1.config(height=int(27/children_num))
 
     def disp_obj(self,num):
         global ORDER_DIC
@@ -94,11 +89,9 @@ class FullScreenApp(object):
         button_complete.place(rely=1.0, relx=1.0, x=-25, y=-50, anchor=SE)
 
     def clean_right_frame(self):
-        print("Widget before " + str(FullScreenApp.right.winfo_children()))
         for widget in FullScreenApp.right.winfo_children():
             if widget['text'] == "Completa":
                 widget.destroy()
-        print("widget after " + str(FullScreenApp.right.winfo_children()))
 
     def set_dic(self, rx):
         global ORDER_NUM, ORDER_DIC
@@ -113,15 +106,6 @@ class FullScreenApp(object):
     def clearOrder(self,button_n):
         global ORDER_DIC
         FullScreenApp.display.config(text="")
-<<<<<<< Updated upstream
-        for i in BUTTONS:
-            x = i['text']
-            n = int(x[-1])
-            if (n == CURRENT_NUM):
-                d = BUTTONS.pop(n-1)
-                d.destroy()
-        print(len(BUTTONS))
-=======
         print("Before: " + str(ORDER_DIC))
         if ORDER_DIC:
             del ORDER_DIC[button_n]
@@ -129,10 +113,6 @@ class FullScreenApp(object):
         for widget in FullScreenApp.left.winfo_children():
             if widget['text'] == "Order #" + str(button_n):
                 widget.destroy()
->>>>>>> Stashed changes
-
-
-
 
 thread_server = myThread(1, "Thread-1", 1)
 thread_server.start()

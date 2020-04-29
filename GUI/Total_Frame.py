@@ -32,17 +32,23 @@ class TotalSection(object):
 
     #Manda el JSON hacia la otra interfase
     def continuar(self, nota):
-        global ORDER
-        if len(ORDER)>0:
-            client.client_socket(self, ORDER)
-            self.delete()
-            messagebox.showinfo("Order", "Order sended successfully")
+        global PRESSED_TOTAL
+        if(PRESSED_TOTAL==0):
+            messagebox.showinfo("Order", "Presione Ver total primero")
+        else:
+            global ORDER
+            if len(ORDER)>0:
+                client.client_socket(self, ORDER)
+                self.delete()
+                messagebox.showinfo("Order", "Order sended successfully")
+            PRESSED_TOTAL=0
 
     #Reset the values of the JSON
     def delete(self):
         global ORDER, GLOBAL_TOTAL, ITEM_VAL, GLOBAL_LABELS, GLOBAL_TOTAL_LABEL, E
         Menu_Frame.DISB, Menu_Frame.DISM, GLOBAL_TOTAL = 0, 0, 0
         E[0].delete(0,"end"), E[1].delete(0,"end"), E[2].delete(0,"end")
+        Menu_Frame.LLEVAR.set(0)
         for i in range(len(GLOBAL_TOTAL_LABEL)):
             GLOBAL_TOTAL_LABEL[i].destroy()
         for i in range(len(ORDER)):
@@ -91,7 +97,7 @@ class DisplayItems():
 
     #store the extras and checkbox in the same JSON as the items
     def showTotal(self, right, checkbox, entrys):
-        global ORDER, GLOBAL_TOTAL, GLOBAL_TOTAL_LABEL
+        global ORDER, GLOBAL_TOTAL, GLOBAL_TOTAL_LABEL,PRESSED_TOTAL
         global E
         print("show total " + str(E))
         E = entrys
@@ -101,12 +107,18 @@ class DisplayItems():
         b = entrys[2].get()
         intd, intv, intb = self.convertStr(d), self.convertStr(v), self.convertStr(b)
         self.fillEntrys(intd, intv, intb, right)
-        dicC = {"Llevar":checkbox.get()}
-        ORDER.append(dicC)
+        self.set_llevar(checkbox)
         GLOBAL_TOTAL = GLOBAL_TOTAL+intd+intv+intb
         label = Label(right, text="Total= $"+str(GLOBAL_TOTAL), font=("arial", 15, "bold"), height = 4)
         GLOBAL_TOTAL_LABEL.append(label)
         label.pack()
+        PRESSED_TOTAL=1
+
+    def set_llevar(self, checkbox):
+        global ORDER
+        if checkbox.get()==1:
+            dicC = {"Llevar":checkbox.get()}
+            ORDER.append(dicC)
 
     #Check for the values of the Extras
     def fillEntrys(self, d, v, b, right):
@@ -117,10 +129,12 @@ class DisplayItems():
         if b != 0:
             self.printItem("Barbacoa", b, right)
 
+
 #global variables
 GLOBAL_TOTAL=0
 ITEM_VAL = []
 ORDER = []
 GLOBAL_ITEM_LABELS = []
 GLOBAL_TOTAL_LABEL = []
+PRESSED_TOTAL = 0
 E = None

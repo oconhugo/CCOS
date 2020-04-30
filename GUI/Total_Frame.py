@@ -32,12 +32,13 @@ class TotalSection(object):
 
     #Manda el JSON hacia la otra interfase
     def continuar(self, nota):
-        global PRESSED_TOTAL
+        global PRESSED_TOTAL, ORDER
         if(PRESSED_TOTAL==0):
             messagebox.showinfo("Order", "Presione Ver total primero")
         else:
             global ORDER
             if len(ORDER)>0:
+                print(str(nota))
                 client.client_socket(self, ORDER)
                 self.delete()
                 messagebox.showinfo("Order", "Order sended successfully")

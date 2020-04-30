@@ -2,6 +2,8 @@ from tkinter import *
 import threading
 import socket
 import pickle
+import Inventory
+
 
 ORDER_DIC = {}
 ORDER_NUM = 0
@@ -11,6 +13,7 @@ BUTTON_NUM=1
 class myThread (threading.Thread):
     def __init__(self, threadID, name, counter):
         threading.Thread.__init__(self)
+        Inventory.Inv(self)
         self.threadID = threadID
         self.name = name
         self.counter = counter
@@ -56,6 +59,9 @@ class FullScreenApp(object):
             master.winfo_screenwidth() - pad, master.winfo_screenheight() - pad))
         master.bind('<Escape>', self.toggle_geom)
 
+    def __exit__(self, exception_type, exception_value, traceback):
+        print("in __exit__")
+
     def toggle_geom(self, event):
         geom = self.master.winfo_geometry()
         print(geom, self._geom)
@@ -95,6 +101,7 @@ class FullScreenApp(object):
 
     def set_dic(self, rx):
         global ORDER_NUM, ORDER_DIC
+        Inventory.Inv.add(self, rx)
         ORDER_NUM = ORDER_NUM+1
         order_str = ""
         for i in rx:
@@ -113,6 +120,7 @@ class FullScreenApp(object):
         for widget in FullScreenApp.left.winfo_children():
             if widget['text'] == "Order #" + str(button_n):
                 widget.destroy()
+
 
 thread_server = myThread(1, "Thread-1", 1)
 thread_server.start()

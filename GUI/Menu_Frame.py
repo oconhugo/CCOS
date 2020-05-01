@@ -1,7 +1,6 @@
 from tkinter import *
 import Total_Frame
 
-
 class MenuSection(object):
     def __init__(self, left, right):
         container = Frame(left, borderwidth=2, relief="solid")
@@ -52,10 +51,12 @@ class Menu(object):
 
     # After the ver total has been clicked, it will disable Menu and total
     def disableButton(self, right, checkbox, entrys):
-        global DISB, DISM
-        if DISB == 0:
+        global DISM
+        if DISM == 0:
+            MenuSection.checkboxLlevar.config(state='disable')
+            for i in entrys:
+                i.config(state='disable')
             Total_Frame.DisplayItems().showTotal(right, checkbox, entrys)
-        DISB = 1
         DISM = 1
 
     def setEntry(self, container, t):
@@ -80,6 +81,5 @@ class Menu(object):
         if DISM == 0:
             Total_Frame.DisplayItems().printItem(key, val, right)
 
-DISB = 0
 DISM = 0
 LLEVAR = 0

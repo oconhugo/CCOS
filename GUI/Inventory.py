@@ -87,7 +87,3 @@ class Inv(object):
     def closeXLSX(self):
         global date
         workbook.close()
-        #ss = openpyxl.load_workbook(excel_dir)
-        #ss_sheet = ss['Sheet1']
-        #ss_sheet.title = date
-        #ss.save(excel_dir)

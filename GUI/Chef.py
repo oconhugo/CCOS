@@ -2,13 +2,14 @@ from tkinter import *
 import threading
 import socket
 import pickle
-import Inventory
+from tkinter import ttk
 
+import Inventory
+import tkinter as tk
 
 ORDER_DIC = {}
 ORDER_NUM = 0
 BUTTON_NUM=1
-
 
 class myThread (threading.Thread):
     def __init__(self, threadID, name, counter):
@@ -40,7 +41,6 @@ class server(object):
             FullScreenApp.set_dic(self, message)
 
 
-
 class FullScreenApp(object):
     def __init__(self, master, **kwargs):
         FullScreenApp.master = master
@@ -48,9 +48,7 @@ class FullScreenApp(object):
         FullScreenApp.right = Frame(self.master, borderwidth=2, relief="solid")
         FullScreenApp.right.pack(side="right", fill="both",expand=TRUE)
         FullScreenApp.left.pack(side="left", fill="both")
-
-        FullScreenApp.display = Label(self.right, text="")
-        FullScreenApp.display.pack()
+        FullScreenApp.createScrolling(self)
 
         pad = 3
         FullScreenApp.master.title("Ordenes")
@@ -83,7 +81,9 @@ class FullScreenApp(object):
 
     def disp_obj(self,num):
         global ORDER_DIC
+        print("Aqui")
         FullScreenApp.clean_right_frame(self)
+        FullScreenApp.createScrolling(self)
         str_ord = num.split("#")
         n = int(str_ord[1])
         count = len(ORDER_DIC)
@@ -121,6 +121,24 @@ class FullScreenApp(object):
             if widget['text'] == "Order #" + str(button_n):
                 widget.destroy()
 
+    def createScrolling(self):
+        container = ttk.Frame(FullScreenApp.right)
+        canvas = tk.Canvas(container)
+        scrollbar = ttk.Scrollbar(container, orient="vertical", command=canvas.yview)
+        scrollable_frame = ttk.Frame(canvas)
+        scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(
+                scrollregion=canvas.bbox("all")
+            )
+        )
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+        FullScreenApp.display = Label(scrollable_frame, text="")
+        container.pack()
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+        FullScreenApp.display.pack()
 
 thread_server = myThread(1, "Thread-1", 1)
 thread_server.start()

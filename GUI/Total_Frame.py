@@ -57,20 +57,20 @@ class TotalSection(object):
         else:
             global ORDER
             if len(ORDER)>0:
-                print(nota.get("1.0", "end-1c"))
-                nota.delete("1.0","end")
+                ORDER.append({"Nota":nota.get("1.0", "end-1c")})
                 client.client_socket(self, ORDER)
                 messagebox.showinfo("Order", "Order sended successfully")
             else:
                 messagebox.showinfo("Order", "No items selected")
-            self.delete()
+            self.delete(nota)
 
     #Reset the values of the JSON
-    def delete(self):
+    def delete(self,nota):
         global ORDER, GLOBAL_TOTAL, ITEM_VAL, GLOBAL_LABELS, GLOBAL_TOTAL_LABEL, E
         Menu_Frame.DISM, GLOBAL_TOTAL = 0, 0
         Menu_Frame.LLEVAR.set(0)
         Menu_Frame.MenuSection.checkboxLlevar.config(state='normal')
+        nota.delete("1.0", "end")
         for i in E:
             i.config(state='normal')
             i.delete(0, "end")

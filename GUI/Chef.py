@@ -14,24 +14,19 @@ BUTTON_NUM=1
 class myThread (threading.Thread):
     def __init__(self, threadID, name, counter):
         threading.Thread.__init__(self)
-        Inventory.Inv(self)
+        Inventory.Inv()
         self.threadID = threadID
         self.name = name
         self.counter = counter
 
     def run(self):
-        print("Starting Socket by multithreading")
         server.server_socket(self)
 
 class server(object):
-    def __init__(self, master, **kwargs):
-        print("3")
-
     def server_socket(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         port = 3125
         s.bind(('0.0.0.0', port))
-        print ('Socket binded to port 3125')
         s.listen(3)
         print ('socket is listening')
 
@@ -48,7 +43,6 @@ class FullScreenApp(object):
         FullScreenApp.right = Frame(self.master, borderwidth=2, relief="solid")
         FullScreenApp.right.pack(side="right", fill="both",expand=TRUE)
         FullScreenApp.left.pack(side="left", fill="both")
-        FullScreenApp.createScrolling(self)
 
         pad = 3
         FullScreenApp.master.title("Ordenes")
@@ -56,9 +50,6 @@ class FullScreenApp(object):
         master.geometry("{0}x{1}+0+0".format(
             master.winfo_screenwidth() - pad, master.winfo_screenheight() - pad))
         master.bind('<Escape>', self.toggle_geom)
-
-    def __exit__(self, exception_type, exception_value, traceback):
-        print("in __exit__")
 
     def toggle_geom(self, event):
         geom = self.master.winfo_geometry()
@@ -81,14 +72,14 @@ class FullScreenApp(object):
 
     def disp_obj(self,num):
         global ORDER_DIC
-        print("Aqui")
         FullScreenApp.clean_right_frame(self)
-        FullScreenApp.createScrolling(self)
+        #FullScreenApp.createScrolling(self)
         str_ord = num.split("#")
         n = int(str_ord[1])
         count = len(ORDER_DIC)
         if count>0:
-            FullScreenApp.display.config(text=ORDER_DIC[n], width=30, height=10, font=("courier", 17, "bold"))
+            FullScreenApp.createScrolling(self,n)
+            #FullScreenApp.display.config(text=ORDER_DIC[n], width=30, height=10, font=("courier", 17, "bold"))
         button_complete = Button(FullScreenApp.right, text="Completa",
                                  command=lambda: FullScreenApp.clearOrder(self, n),
                                  height=4, width=30, font=("arial", 10, "bold"), bg="green")
@@ -96,8 +87,7 @@ class FullScreenApp(object):
 
     def clean_right_frame(self):
         for widget in FullScreenApp.right.winfo_children():
-            if widget['text'] == "Completa":
-                widget.destroy()
+            widget.destroy()
 
     def set_dic(self, rx):
         global ORDER_NUM, ORDER_DIC
@@ -106,26 +96,28 @@ class FullScreenApp(object):
         order_str = ""
         for i in rx:
             for y in i:
-                order_str = order_str + "\n" + y
+                if y == 'Nota':
+                    order_str = order_str + "\n" + i[y]
+                else:
+                    order_str = order_str + "\n" + y
         ORDER_DIC[ORDER_NUM] = order_str
         FullScreenApp.createButtons(self)
 
     def clearOrder(self,button_n):
         global ORDER_DIC
-        FullScreenApp.display.config(text="")
-        print("Before: " + str(ORDER_DIC))
+        #FullScreenApp.display.config(text="")
         if ORDER_DIC:
             del ORDER_DIC[button_n]
-        print("After: " + str(ORDER_DIC))
         for widget in FullScreenApp.left.winfo_children():
             if widget['text'] == "Order #" + str(button_n):
                 widget.destroy()
+        FullScreenApp.clean_right_frame(self)
 
-    def createScrolling(self):
-        container = ttk.Frame(FullScreenApp.right)
-        canvas = tk.Canvas(container)
+    def createScrolling(self,n):
+        container = ttk.Frame(FullScreenApp.right,height=550,width=550)
+        canvas = tk.Canvas(container,height=550,width=550)
         scrollbar = ttk.Scrollbar(container, orient="vertical", command=canvas.yview)
-        scrollable_frame = ttk.Frame(canvas)
+        scrollable_frame = ttk.Frame(canvas,height=550,width=550)
         scrollable_frame.bind(
             "<Configure>",
             lambda e: canvas.configure(
@@ -134,11 +126,14 @@ class FullScreenApp(object):
         )
         canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
         canvas.configure(yscrollcommand=scrollbar.set)
-        FullScreenApp.display = Label(scrollable_frame, text="")
+        spl_order = ORDER_DIC[n].splitlines()
+        for i in spl_order:
+            FullScreenApp.display = Label(scrollable_frame, text=i,font=("courier", 16, "bold"))
+            FullScreenApp.display.pack()
         container.pack()
         canvas.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
-        FullScreenApp.display.pack()
+
 
 thread_server = myThread(1, "Thread-1", 1)
 thread_server.start()

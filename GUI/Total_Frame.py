@@ -17,7 +17,7 @@ class TotalSection(object):
         box.pack(side="bottom", expand=True, fill="both", padx=10, pady=10)
         nota = self.newNota(box)
         continuar = Button(box, text="Continuar",height = 4, width=25, bg="lime green", padx=10, pady=10, command= lambda: self.continuar(nota))
-        cancelar = Button(box, text="cancelar",height = 4, width=25, bg="fireBrick2", padx=10, pady=10, command= lambda: self.delete())
+        cancelar = Button(box, text="cancelar",height = 4, width=25, bg="fireBrick2", padx=10, pady=10, command= lambda: self.delete(nota))
         continuar.pack(side = "left")
         cancelar.pack( side = "left")
 
@@ -71,9 +71,10 @@ class TotalSection(object):
         Menu_Frame.LLEVAR.set(0)
         Menu_Frame.MenuSection.checkboxLlevar.config(state='normal')
         nota.delete("1.0", "end")
-        for i in E:
-            i.config(state='normal')
-            i.delete(0, "end")
+        if E != None:
+            for i in E:
+                i.config(state='normal')
+                i.delete(0, "end")
         for i in range(len(GLOBAL_TOTAL_LABEL)):
             GLOBAL_TOTAL_LABEL[i].destroy()
         for i in range(len(ORDER)):

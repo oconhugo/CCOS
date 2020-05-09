@@ -7,10 +7,13 @@ from tkinter import ttk
 import Inventory
 import tkinter as tk
 
+#Global variable
 ORDER_DIC = {}
 ORDER_NUM = 0
 BUTTON_NUM=1
 
+#Creates a thread to run the cooker socket
+#The thread helps to avoid interference with the gui
 class myThread (threading.Thread):
     def __init__(self, threadID, name, counter):
         threading.Thread.__init__(self)
@@ -22,6 +25,7 @@ class myThread (threading.Thread):
     def run(self):
         server.server_socket(self)
 
+#Establish the server connection that receives the socket from cashier.
 class server(object):
     def server_socket(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -35,7 +39,7 @@ class server(object):
             message = pickle.loads(c.recv(1024))
             FullScreenApp.set_dic(self, message)
 
-
+#Contains the gui for the cooker and its funtionabilities
 class FullScreenApp(object):
     def __init__(self, master, **kwargs):
         FullScreenApp.master = master
@@ -51,12 +55,14 @@ class FullScreenApp(object):
             master.winfo_screenwidth() - pad, master.winfo_screenheight() - pad))
         master.bind('<Escape>', self.toggle_geom)
 
+    #Set size of the gui to full screen
     def toggle_geom(self, event):
         geom = self.master.winfo_geometry()
         print(geom, self._geom)
         self.master.geometry(self._geom)
         self._geom = geom
 
+    #Create the button for each order and re arranges them
     def createButtons(self):
         global ORDER_NUM, BUTTONS
         temp = ORDER_NUM
@@ -70,6 +76,7 @@ class FullScreenApp(object):
         for component_1 in FullScreenApp.left.winfo_children():
             component_1.config(height=int(27/children_num))
 
+    #In charge of displaying the order
     def disp_obj(self,num):
         global ORDER_DIC
         FullScreenApp.clean_right_frame(self)
@@ -85,10 +92,12 @@ class FullScreenApp(object):
                                  height=4, width=30, font=("arial", 10, "bold"), bg="green")
         button_complete.place(rely=1.0, relx=1.0, x=-25, y=-50, anchor=SE)
 
+    #Cleans the completed order
     def clean_right_frame(self):
         for widget in FullScreenApp.right.winfo_children():
             widget.destroy()
 
+    #Receive the order and store it on the dictoriary
     def set_dic(self, rx):
         global ORDER_NUM, ORDER_DIC
         Inventory.Inv.add(self, rx)
@@ -103,9 +112,9 @@ class FullScreenApp(object):
         ORDER_DIC[ORDER_NUM] = order_str
         FullScreenApp.createButtons(self)
 
+    #After the order is done, deletes the button order
     def clearOrder(self,button_n):
         global ORDER_DIC
-        #FullScreenApp.display.config(text="")
         if ORDER_DIC:
             del ORDER_DIC[button_n]
         for widget in FullScreenApp.left.winfo_children():
@@ -113,6 +122,7 @@ class FullScreenApp(object):
                 widget.destroy()
         FullScreenApp.clean_right_frame(self)
 
+    #Creates the scrolling that shows the itemps in the order
     def createScrolling(self,n):
         container = ttk.Frame(FullScreenApp.right,height=550,width=550)
         canvas = tk.Canvas(container,height=550,width=550)

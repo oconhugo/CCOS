@@ -21,6 +21,7 @@ class TotalSection(object):
         continuar.pack(side = "left")
         cancelar.pack( side = "left")
 
+    #Creates the scrolling widget to allow the cashier enter multiple items
     def createScrolling(self, right):
         container = ttk.Frame(right)
         canvas = tk.Canvas(container)
@@ -38,7 +39,7 @@ class TotalSection(object):
         canvas.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
 
-    #Regresa la nota para el taquero
+    #Return the note for the cooker
     def newNota(self, box):
         F = Frame(box)
         F.pack()
@@ -48,7 +49,8 @@ class TotalSection(object):
         E1.pack(side=RIGHT)
         return E1
 
-    #Manda el JSON hacia la otra interfase
+    #Sends the JSON object to the client.
+    #So it will send it on the socket for the cooker
     def continuar(self, nota):
         global ORDER
         #send order just when ver total is pressed
@@ -84,7 +86,7 @@ class TotalSection(object):
         for i in range(len(GLOBAL_ITEM_LABELS)):
             GLOBAL_ITEM_LABELS[i].destroy()
 
-#Display the selected items
+#Display the selected items on the right side
 class DisplayItems():
     def printItem(self, x, val, right):
         global GLOBAL_ITEM_LABELS, GLOBAL
@@ -114,10 +116,11 @@ class DisplayItems():
 
     #Check if it is a number. Then convert it
     def convertStr(self, d):
-        if len(d)>0:
-            dd= int(d)
-        else :
-            dd= 0
+        if d.isdigit():
+            if len(d) > 0:
+                dd = int(d)
+        else:
+            dd = 0
         return dd
 
     #store the extras and checkbox in the same JSON as the items
@@ -136,6 +139,7 @@ class DisplayItems():
         GLOBAL_TOTAL_LABEL.append(label)
         label.pack()
 
+    #store the checkbox on the order.
     def set_llevar(self, checkbox):
         global ORDER
         if checkbox.get()==1:

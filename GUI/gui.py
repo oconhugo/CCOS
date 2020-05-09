@@ -2,6 +2,9 @@ from tkinter import *
 import Menu_Frame
 from Total_Frame import TotalSection
 
+#This class is in charge of creating the base gui for the cashier.
+#Creates left side that will contain the restaurant menu and the right
+#Will contain the selected items
 class FullScreenApp(object):
     def __init__(self, master, **kwargs):
         self.master = master
@@ -19,6 +22,7 @@ class FullScreenApp(object):
         Menu_Frame.MenuSection(self.left, self.right)
         TotalSection(self.right)
 
+    #Function in charge of putting the gui on full screen size
     def toggle_geom(self, event):
         geom = self.master.winfo_geometry()
         print(geom, self._geom)

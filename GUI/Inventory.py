@@ -4,15 +4,19 @@ import xlsxwriter
 import openpyxl as op
 from datetime import date
 
+#Get today's date and current directory.
+#Set path with today's date as document name.
 today = date.today()
 today_formated = today.strftime("%b-%d-%Y")
 current_dir = os.getcwd()
 inventory_dir = current_dir + "/Inventory"
 excel_dir = inventory_dir + "/" + today_formated + ".xlsx"
 
+#create folder for inventory.
 if not os.path.exists(inventory_dir):
     os.makedirs(inventory_dir)
 
+#Creates workbook and worksheet
 workbook = xlsxwriter.Workbook(excel_dir)
 worksheet = workbook.add_worksheet("Inventario")
 row , orderNum = 0, 0
@@ -20,15 +24,18 @@ counter = 0
 date = ""
 
 class Inv(object):
+    #class variables
     cell_header_format=None
     cell_header_format_1=None
 
+    #Add the orders to the inventory
     def add(self, order):
         global row, orderNum
         orderNum += 1
 
         Inv.set_format(self)
 
+        #If inventory does not exist creates file and add order, else append order
         if not os.path.exists(excel_dir):
             Inv.set_headers(self)
             orderNum = 1
@@ -58,6 +65,7 @@ class Inv(object):
             wb.save(excel_dir)
             wb.close()
 
+    #Creates the format for the excel file
     def set_format(self):
         Inv.cell_header_format = workbook.add_format()
         Inv.cell_header_format.set_bold()
@@ -81,6 +89,7 @@ class Inv(object):
         worksheet.set_column(5, 5, 25)
         worksheet.set_column(6, 6, 10)
 
+    #Create header for the file
     def set_headers(self):
         worksheet.write(0, 0, "Order #", Inv.cell_header_format)
         worksheet.write(0, 1, "Items", Inv.cell_header_format)

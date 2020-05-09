@@ -1,6 +1,7 @@
 from tkinter import *
 import Total_Frame
 
+#Menusection class contains the menu on the cashier side.
 class MenuSection(object):
     def __init__(self, left, right):
         container = Frame(left, borderwidth=2, relief="solid")
@@ -21,7 +22,7 @@ class MenuSection(object):
         return LLEVAR
 
 
-# Create the menu section
+# Create the menu items, entrys, and "ver total button"
 class Menu(object):
     def __init__(self, container, right, checkbox):
         container_left = Frame(container, borderwidth=2)
@@ -59,6 +60,7 @@ class Menu(object):
             Total_Frame.DisplayItems().showTotal(right, checkbox, entrys)
         DISM = 1
 
+    #Return the entry widget
     def setEntry(self, container, t):
         entrys = []
         for i in t:
@@ -69,6 +71,7 @@ class Menu(object):
             entrys.append(E1)
         return entrys
 
+    #Creates the button for each item of the menu.
     def fillMenu(self, item, container, right):
         for i in item:
             button = Button(container, text=i, command=lambda key=i, val=item[i]: self.disableMenu(key, val, right),

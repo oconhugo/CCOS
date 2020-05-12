@@ -1,0 +1,63 @@
+*Name*
+Cashier-Chef Ordering System (CCOS)
+
+*Introduction*
+The system provides a method of ordering on a restaurant, where the client goes to the cashier and he orders its food. The cashier selects 
+the food ordered by the customer and when the cashier selects that the order was paid, the order is sent to the chef. The chef will have a PC displaying
+a queue of the orders. The chef will then be able to click/touch on any order number, see its content and selects it as complete, in which case, the order
+will dissapear from the queue.
+
+*Technologies*
+Languages:
+	-Python 3
+Libraries:
+	-EasyTkinter 1.1.0
+	-PyInstaller 3.6
+	-XlsxWriter 1.2.8
+	-future 0.18.2
+	-openyxl 3.0.3
+	-threadsafe-tkinter 1.0.2
+
+*Prerequisites*
+The following software is needed to install and run the system:
+	-Python 2.7 or higher
+	
+The following hardware is needed to install and run the system:
+	-Two PCs running in a same network
+
+Installation
+*How to install it*
+*Debugging Sockets*
+
+Deployment
+*Additional notes on how to deploy this on a live system*
+
+*Launch*
+Go to the project folder. First run the chef, as it is going to be the socket server, and after that run the cashier, which is the client socket.
+
+Description
+*What can the project specifically do*
+*Context*
+*Features*
+*subsections can be added*
+*Links*
+*Visuals*
+
+Running the tests
+*How to run automated tests for the system*
+
+Usage
+*Example of usage*
+
+*Support*
+For any questions, do not hesistate to contact the authors.
+
+*Roadmap*
+In the future, we will connect the system to a ticket machine and print a ticket for the client. This will happen when the system is implemented on a restaurant.
+
+*Authors and acknowledgements*
+Alejandro Ibarra Polanco - alejandro.ibarra.p@gmail.com
+Hugo Ocon - oconhugo14@gmail.com
+
+*Project Status*
+Completed

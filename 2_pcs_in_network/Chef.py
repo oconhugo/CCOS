@@ -30,8 +30,8 @@ class myThread (threading.Thread):
 class server(object):
     def server_socket(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        port = 3125
-        ip = '0.0.0.0'
+        port = 3125 #insert Port that you want to use, need to be >1024
+        ip = '0.0.0.0' #insert server IP address
 
         s.bind((ip, port))
         s.listen(3)

@@ -10,8 +10,8 @@ class client(object):
     #place your own ip
     def client_socket(self,z):
         s = socket.socket()
-        port = 3125
-        ip = 'localhost'
+        port = 3125  #insert Port that you want to use, need to be >1024
+        ip = 'localhost' #insert server IP address
         s.connect((ip, port))
         s.sendall(pickle.dumps(z))
         s.close()

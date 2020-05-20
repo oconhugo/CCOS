@@ -1,6 +1,7 @@
 from tkinter import *
 import Total_Frame
 
+#Menusection class contains the menu on the cashier side.
 class MenuSection(object):
     def __init__(self, left, right):
         container = Frame(left, borderwidth=2, relief="solid")
@@ -9,19 +10,19 @@ class MenuSection(object):
         container.pack(expand=True, fill="both", padx=10, pady=10)
         Menu(container, right, checkbox)
 
-    # class in charge of create checkbox llevar
+    # class in charge of create checkbox ToGo
     def Checkboxes(self, left):
-        global LLEVAR
-        LLEVAR = IntVar()
+        global TO_GO
+        TO_GO = IntVar()
         checkboxContainer = Frame(left)
         checkboxContainer.pack()
 
-        MenuSection.checkboxLlevar = Checkbutton(checkboxContainer, text="Llevar", variable=LLEVAR)
-        MenuSection.checkboxLlevar.pack(side=LEFT, fill="both", padx=10, pady=10)
-        return LLEVAR
+        MenuSection.checkboxToGo = Checkbutton(checkboxContainer, text="To-Go", variable=TO_GO)
+        MenuSection.checkboxToGo.pack(side=LEFT, fill="both", padx=10, pady=10)
+        return TO_GO
 
 
-# Create the menu section
+# Create the menu items, entrys, and "Total button"
 class Menu(object):
     def __init__(self, container, right, checkbox):
         container_left = Frame(container, borderwidth=2)
@@ -43,22 +44,23 @@ class Menu(object):
         self.fillMenu(extras, container_right, right)
         entrys = self.setEntry(container_middle, text)
 
-        # when click the "ver total" it will display the total at the Total_frame
-        done_button = Button(container_right, text="ver total",
+        # when click the "Total" it will display the total at the Total_frame
+        done_button = Button(container_right, text="Total",
                              command=lambda: self.disableButton(right, checkbox, entrys), height=4, width=30,
                              font=("arial", 10, "bold"), bg="orange")
         done_button.pack(side=BOTTOM)
 
-    # After the ver total has been clicked, it will disable Menu and total
+    # After the Total has been clicked, it will disable Menu and total
     def disableButton(self, right, checkbox, entrys):
         global DISM
         if DISM == 0:
-            MenuSection.checkboxLlevar.config(state='disable')
+            MenuSection.checkboxToGo.config(state='disable')
             for i in entrys:
                 i.config(state='disable')
             Total_Frame.DisplayItems().showTotal(right, checkbox, entrys)
         DISM = 1
 
+    #Return the entry widget
     def setEntry(self, container, t):
         entrys = []
         for i in t:
@@ -69,6 +71,7 @@ class Menu(object):
             entrys.append(E1)
         return entrys
 
+    #Creates the button for each item of the menu.
     def fillMenu(self, item, container, right):
         for i in item:
             button = Button(container, text=i, command=lambda key=i, val=item[i]: self.disableMenu(key, val, right),
@@ -82,4 +85,4 @@ class Menu(object):
             Total_Frame.DisplayItems().printItem(key, val, right)
 
 DISM = 0
-LLEVAR = 0
+TO_GO = 0

@@ -94,7 +94,8 @@ For any questions, do not hesistate to contact the authors.
 In the future, we will connect the system to a ticket machine and print a ticket for the client. This will happen when the system is implemented on a restaurant.
 
 ## Authors and Acknowledgements
-Alejandro Ibarra Polanco - alejandro.ibarra.p@gmail.com <br/> Hugo Ocon - oconhugo14@gmail.com
+Hugo Ocon - oconhugo14@gmail.com <br/>
+Alejandro Ibarra Polanco - alejandro.ibarra.p@gmail.com  
 
 ## Project Status
 Complete

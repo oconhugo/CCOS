@@ -54,8 +54,8 @@ Go to the project folder. First run the chef, as it is going to be the socket se
 
 ## Description
 ### Context
-This started as a personal project to provide a system for a mexican taqueria to make it easier to get the order to the chef from the cashier 
-and easily be aware of the sales obtained per day.
+This started as a personal project to provide a system for a mexican taqueria. We got contacted by the owner of a mexican restaurant, asking us for a system that optimized his ordering restaurant procedure.The main problem with his process was that taking the order, sending the order to the cooker, and deliver the food was done manually. As consecuence, this make the ordering process and delivery slower.<br/>
+In response to this issues, we created the "Cashier-chef Ordering System" for the restaurant. That will optimize the process by providing an interface for the cashier and the cooker where will keep comunication, receive orders faster, and complete it quickler as well. This increses the sales and produce more income for the restaurant. This system also create an excel file that stores the total sales and earning making the cashier life easier.
 		
 ### What can the project specifically do
 The system gets the order form the cashier and sents it to the chef. The chef then obtains the order an it is added to a list. The chef sees his specific

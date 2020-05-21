@@ -2,7 +2,7 @@
 Repository for CCOS
 
 ## Introduction
-The system provides a method of ordering on a restaurant, where the client goes to the cashier and he orders its food. The cashier selects the food ordered by the customer and when the cashier selects that the order was paid, the order is sent to the chef. The chef will have a PC displaying a queue of the orders. The chef will then be able to click/touch on any order number, see its content and selects it as complete, in which case, the order will dissapear from the queue.
+The system provides a method of ordering on a restaurant, where the client goes to the cashier and orders his food. The cashier selects the food ordered by the customer and is sent to the chef. The chef will have a PC displaying a list of the orders. The chef will then be able to click/touch on any order number to display the content and selects it as complete to dissapear from the list.
 
 ## Demostration
 https://www.youtube.com/watch?v=XUbXtwzE9M8 
@@ -31,7 +31,7 @@ The following hardware is needed to install and run the system:<br/>
 		-Two PCs running in a same network<br/>
     
 ## Installation
-For installing the system just download the files and make sure that the two computer that are running the system are on the same network.
+To install the system just download the files and make sure that the two computer that are running the system are on the same network.
 
 ## Deployment
 Before turning the system on the PCs, we need to make sure that the PCs are connected in the same network and that sockets can communicate.
@@ -61,7 +61,7 @@ This started as a personal project to provide a system for a mexican taqueria. W
 In response to this issues, we created the "Cashier-chef Ordering System" for the restaurant. That will optimize the process by providing an interface for the cashier and the cooker where will keep comunication, receive orders faster, and complete it quickler as well. This increses the sales and produce more income for the restaurant. This system also create an excel file that stores the total sales and earning making the cashier life easier.
 		
 ### What can the project specifically do
-The system gets the order form the cashier and sents it to the chef. The chef then obtains the order an it is added to a list. The chef sees his specific
+The system gets the order from the cashier and sents it to the chef. The chef then obtains the order an it is added to a list. The chef sees his specific
 interface on a PC, which contains a list of the orders on the left side, and on the right side the content of the order he clicks. Every order that is
 completed on the day, every day, gets stored in an excel file. Each excel file has the orders of the days and its title is the date the orders were taken. The files
 also show the total orders and sales of each day. All the files are stored in a folder called Inventory that is created inside the priject folder.
